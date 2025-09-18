@@ -23,22 +23,58 @@ This project is an end-to-end analysis and prediction of credit scores, classifi
 
 credit-score-prediction/
 │
-├── 📂 assets/
-│   └── 🖼️ demo.gif
+├── 📂 assets/                         
+│   └── demo.gif
 │
-├── 📂 notebooks/
-│   ├── 📜 01_Data_Preprocessing_and_EDA.ipynb
-│   └── 📜 02_Customer_Clustering_Analysis.ipynb
+├── 📂 notebooks/                      
+│   ├── 01_Data_Preprocessing_and_EDA.ipynb
+│   └── 02_Customer_Clustering_Analysis.ipynb
 │
-├── 📂 reports/
-│   ├── 📄 01_EDA_Report.pdf
-│   └── 📄 02_Modelling_Report.pdf
+├── 📂 reports/                        
+│   ├── 01_EDA_Report.pdf
+│   └── 02_Modelling_Report.pdf
 │
-├── 📂 web\_app/
-│   └── ... (contents of your Flask app)
+├── 📂 web_app/                        
+│   ├── app.db                         
+│   ├── config.py                      
+│   ├── FinPulse.py                    
+│   ├── model.pkl                      
+│   ├── scaler.pkl                     
+│   ├── categorical_features.pkl       
+│   ├── numerical_features.pkl        
+│   │
+│   ├── 📂 app/                        
+│   │   ├── **init**.py                
+│   │   ├── forms.py                   
+│   │   ├── models.py                  
+│   │   ├── routes.py                  
+│   │   │
+│   │   ├── 📂 templates/              
+│   │   │   ├── base.html
+│   │   │   ├── index.html
+│   │   │   ├── login.html
+│   │   │   ├── register.html
+│   │   │   ├── predict.html
+│   │   │   ├── result.html
+│   │   │   ├── report.html
+│   │   │   ├── report\_form.html
+│   │   │   ├── user.html
+│   │   │   └── edit\_profile.html
+│   │
+│   ├── 📂 migrations/                 
+│   │   ├── env.py
+│   │   ├── script.py.mako
+│   │   ├── alembic.ini
+│   │   ├── README
+│   │   └── 📂 versions/               
+│   │       ├── 11a703a11b75_monthlycreditrecord.py
+│   │       ├── 3a9a7b5a4a03_new_fields_in_user_model.py
+│   │       ├── 52f59432a852_users_table.py
+│   │       └── ffac2ad0ad9b_creditcustomer.py
 │
-├── 📜 README.md
-└── 📜 requirements.txt
+├── README.md                        
+├── requirements.txt                   
+
 
 ````
 
