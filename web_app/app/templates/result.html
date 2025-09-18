@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card p-5 shadow rounded-4">
+        <h2 class="text-success text-center mb-4">Prediction Result</h2>
+
+        <div class="text-center mb-4">
+            <h4>{{ prediction_text }}</h4>
+        </div>
+
+        <div>
+            <h5 class="fw-semibold">🔍 Key Insights</h5>
+            <ul class="list-group mb-4">
+                {% for insight in insights %}
+                <li class="list-group-item">{{ insight }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="text-center">
+            <a href="{{ url_for('predict') }}" class="btn btn-outline-primary">🔙 Predict Another Credit Score</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

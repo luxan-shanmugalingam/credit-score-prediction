@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary">Customer Credit Report</h2>
+        <a href="{{ url_for('report_form') }}" class="btn btn-outline-secondary">← Back to Form</a>
+    </div>
+
+    <!-- Basic Info Section -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            Basic Information – {{ customer.customer_id }}
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3"><strong>Age:</strong> {{ customer.age }}</div>
+                <div class="col-md-3"><strong>Occupation:</strong> {{ customer.occupation }}</div>
+                <div class="col-md-3"><strong>Annual Income:</strong> ${{ customer.annual_income }}</div>
+                <div class="col-md-3"><strong>Payment Behaviour:</strong>
+                    <span class="badge bg-info text-dark">{{ customer.payment_behaviour }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white">
+            Monthly Trend Overview (Grouped Insights)
+        </div>
+        <div class="card-body">
+            <div id="trendChart" style="width:100%;height:1000px;"></div>
+        </div>
+    </div>
+
+    <!-- Data Table Section -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white">
+            Detailed Monthly Financial Metrics
+        </div>
+        <div class="card-body table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Month</th>
+                        <th>Bank Accounts</th>
+                        <th>Credit Cards</th>
+                        <th>Interest Rate</th>
+                        <th>Loans</th>
+                        <th>Delay from Due Date</th>
+                        <th>Delayed Payments</th>
+                        <th>Changed Credit Limit</th>
+                        <th>Credit Inquiries</th>
+                        <th>Outstanding Debt</th>
+                        <th>Utilization Ratio</th>
+                        <th>EMI</th>
+                        <th>Monthly Investment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <td>{{ record.month_no }}</td>
+                        <td>{{ record.num_bank_accounts }}</td>
+                        <td>{{ record.num_credit_card }}</td>
+                        <td>{{ record.interest_rate }}</td>
+                        <td>{{ record.num_of_loan }}</td>
+                        <td>{{ record.delay_from_due_date }}</td>
+                        <td>{{ record.num_of_delayed_payment }}</td>
+                        <td>{{ record.changed_credit_limit }}</td>
+                        <td>{{ record.num_credit_inquiries }}</td>
+                        <td>{{ record.outstanding_debt }}</td>
+                        <td>{{ record.credit_utilization_ratio }}</td>
+                        <td>{{ record.total_emi_per_month }}</td>
+                        <td>{{ record.amount_invested_monthly }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Plotly Script -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    const chart_data = {{ chart_data | tojson | safe }};
+    const months = chart_data.months;
+
+    const groups = {
+        "Debt & Loans": {
+            variables: ['outstanding_debt', 'num_of_loan', 'credit_utilization_ratio', 'total_emi_per_month'],
+            colors: ['blue', 'orange', 'green', 'red']
+        },
+        "Delays & Payments": {
+            variables: ['delay_from_due_date', 'num_of_delayed_payment'],
+            colors: ['purple', 'brown']
+        },
+        "Credit Accounts": {
+            variables: ['num_bank_accounts', 'num_credit_card', 'num_credit_inquiries', 'changed_credit_limit'],
+            colors: ['teal', 'pink', 'gray', 'gold']
+        },
+        "Rates & Investments": {
+            variables: ['interest_rate', 'amount_invested_monthly'],
+            colors: ['black', 'cyan']
+        }
+    };
+
+    const traces = [];
+    const layout = {
+        title: 'Customer Credit Report – Grouped Trends',
+        height: 1000,
+        width: 1200,
+        showlegend: true,
+        legend: {
+            orientation: "h",
+            yanchor: "bottom",
+            y: -0.4,  // Increased space below the chart
+            xanchor: "center",
+            x: 0.5
+        },
+        margin: { t: 80, l: 60, r: 30, b: 180 },
+        grid: { rows: 2, columns: 2, pattern: 'independent' },
+        annotations: []
+    };
+
+    let i = 0;
+    Object.entries(groups).forEach(([groupTitle, group]) => {
+        const row = Math.floor(i / 2) + 1;
+        const col = (i % 2) + 1;
+
+        group.variables.forEach((varName, j) => {
+            if (chart_data[varName]) {
+                traces.push({
+                    x: months,
+                    y: chart_data[varName],
+                    type: 'scatter',
+                    mode: 'lines+markers',
+                    name: varName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+                    line: { color: group.colors[j] },
+                    xaxis: 'x' + (i + 1),
+                    yaxis: 'y' + (i + 1)
+                });
+            }
+        });
+
+        layout.annotations.push({
+            text: groupTitle,
+            font: { size: 14, weight: 'bold' },
+            showarrow: false,
+            xref: 'paper',
+            yref: 'paper',
+            x: (col - 0.5) / 2,
+            y: 1 - (row - 0.3) / 2,
+            xanchor: 'center',
+            yanchor: 'bottom'
+        });
+
+        i += 1;
+    });
+
+    Plotly.newPlot('trendChart', traces, layout, { responsive: true });
+</script>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card p-5 shadow-sm rounded-4">
+        <h2 class="card-title text-center mb-4 text-primary">Credit Score Predictor</h2>
+
+        <form action="/predict" method="post">
+            <div class="section-title text-muted fw-semibold">Numerical Inputs</div>
+            <div class="row g-4">
+                {% for field in numerical_features %}
+                <div class="col-md-6">
+                    <label for="{{ field }}" class="form-label">{{ field.replace('_', ' ') }}</label>
+                    <input type="number" name="{{ field }}" class="form-control" step="any" placeholder="Enter {{ field.replace('_', ' ') }}" required>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="section-title text-muted fw-semibold mt-4">Categorical Inputs</div>
+            <div class="row g-4">
+                <!-- Month -->
+                <div class="col-md-6">
+                    <label for="Month" class="form-label">Month</label>
+                    <select name="Month" class="form-select" required>
+                        <option value="">-- Select Month --</option>
+                        {% for month in ['January','February','March','May','June','July','August'] %}
+                        <option value="{{ month }}">{{ month }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Occupation -->
+                <div class="col-md-6">
+                    <label for="Occupation" class="form-label">Occupation</label>
+                    <select name="Occupation" class="form-select" required>
+                        <option value="">-- Select Occupation --</option>
+                        {% for job in ['Architect','Developer','Doctor','Engineer','Entrepreneur','Journalist','Lawyer','Manager','Mechanic','Media_Manager','Musician','Scientist','Teacher','Writer'] %}
+                        <option value="{{ job }}">{{ job.replace('_', ' ') }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Payment of Min Amount -->
+                <div class="col-md-6">
+                    <label for="Payment_of_Min_Amount" class="form-label">Payment of Minimum Amount</label>
+                    <select name="Payment_of_Min_Amount" class="form-select" required>
+                        <option value="">-- Select Option --</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <!-- Payment Behaviour -->
+                <div class="col-md-6">
+                    <label for="Payment_Behaviour" class="form-label">Payment Behaviour</label>
+                    <select name="Payment_Behaviour" class="form-select" required>
+                        <option value="">-- Select Behaviour --</option>
+                        {% for option in ['High_spent_Medium_value_payments','High_spent_Small_value_payments','Low_spent_Large_value_payments','Low_spent_Medium_value_payments','Low_spent_Small_value_payments'] %}
+                        <option value="{{ option }}">{{ option.replace('_', ' ') }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <button type="submit" class="btn btn-primary btn-lg">Predict Credit Score</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

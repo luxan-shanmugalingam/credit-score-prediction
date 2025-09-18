@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .welcome-container {
+        max-width: 800px;
+        margin: 60px auto;
+        padding: 40px;
+        background-color: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .welcome-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .welcome-subtitle {
+        font-size: 1.5rem;
+        color: #34495e;
+        margin-bottom: 25px;
+    }
+
+    .welcome-tagline {
+        font-size: 1rem;
+        color: #7f8c8d;
+        margin-top: 10px;
+    }
+
+    .btn-explore {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 12px 25px;
+        background-color: #2980b9;
+        color: white;
+        font-size: 1rem;
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-explore:hover {
+        background-color: #1c5980;
+    }
+</style>
+
+<div class="welcome-container">
+    <div class="welcome-title">Hi, {{ current_user.username }}!</div>
+    <div class="welcome-subtitle">Welcome to <strong>FinPulse</strong></div>
+    <p class="welcome-tagline">Your intelligent assistant for credit score analysis and customer financial behavior insights.</p>
+</div>
+{% endblock %}
