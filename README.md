@@ -60,8 +60,7 @@ credit-score-prediction/
     ```
 4.  **Run the application:**
     ```bash
-    python web_app/app.py
-    # (or the name of your main Flask file)
+    python web_app/Finpulse.py
     ```
     
 ## Key Findings
