@@ -111,7 +111,7 @@ credit-score-prediction/
 * **Advanced Clustering:** Apply density-based clustering algorithms like DBSCAN to capture more complex, non-linear customer segments.
 
 ## Authors
-* Tishani Wijekoon (S16379)
-* Chami Sewwandi (S16028)
-* W.K.Hiruni Hasara (S16210)
-* S.Luxan (s16329)
+* Tishani Wijekoon
+* Chami Sewwandi
+* W.K.Hiruni Hasara
+* S.Luxan
